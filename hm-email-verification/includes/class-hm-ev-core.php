@@ -76,23 +76,23 @@ class HM_EV_Core {
         $token = isset($_GET['token']) ? sanitize_text_field(wp_unslash($_GET['token'])) : '';
 
         if (!$uid || $token === '') {
-            self::redirect_verify(['v' => 'invalid']);
+            self::redirect_verify(['v' => 'invalid'], $uid);
         }
 
         // User exists?
         $user = get_user_by('id', $uid);
         if (!$user) {
-            self::redirect_verify(['v' => 'notfound']);
+            self::redirect_verify(['v' => 'notfound'], $uid);
         }
 
         // Already verified?
         if (self::is_verified($uid)) {
-            self::redirect_after_verify(['v' => 'success']);
+            self::redirect_after_verify(['v' => 'success'], $uid);
         }
 
         $saved = get_user_meta($uid, self::META_TOKEN, true);
         if (!is_string($saved) || $saved === '' || !hash_equals($saved, $token)) {
-            self::redirect_verify(['v' => 'invalid', 'email' => $user->user_email]);
+            self::redirect_verify(['v' => 'invalid', 'email' => $user->user_email], $uid);
         }
 
         // Mark verified + cleanup
@@ -101,7 +101,7 @@ class HM_EV_Core {
         // Keep META_TGEN as harmless history, or delete if you want:
         // delete_user_meta($uid, self::META_TGEN);
 
-        self::redirect_after_verify(['v' => 'success']);
+        self::redirect_after_verify(['v' => 'success'], $uid);
     }
 
     public static function handle_resend_request() {
@@ -187,6 +187,50 @@ class HM_EV_Core {
     /* ==============================
      * Helpers
      * ============================== */
+
+    protected static function normalize_lang($lang) {
+        $lang = strtolower(trim((string)$lang));
+        if ($lang === '') return '';
+        if (strpos($lang, '_') !== false) $lang = explode('_', $lang)[0];
+        if (strpos($lang, '-') !== false) $lang = explode('-', $lang)[0];
+        $lang = preg_replace('~[^a-z]~', '', $lang);
+        if (strlen($lang) > 2) $lang = substr($lang, 0, 2);
+        return $lang;
+    }
+
+    protected static function request_lang_prefix() {
+        $uri = isset($_SERVER['REQUEST_URI']) ? (string)$_SERVER['REQUEST_URI'] : '';
+        if (preg_match('~^/([a-z]{2})/~', $uri, $m)) {
+            return self::normalize_lang($m[1]);
+        }
+        return '';
+    }
+
+    protected static function effective_lang($user_id = 0) {
+        $user_id = absint($user_id);
+        if ($user_id) {
+            $meta = get_user_meta($user_id, self::META_LANG, true);
+            $meta = self::normalize_lang($meta);
+            if ($meta !== '') return $meta;
+        }
+
+        $prefix = self::request_lang_prefix();
+        if ($prefix !== '') return $prefix;
+
+        // Default (your sites: TR is default without prefix)
+        return 'tr';
+    }
+
+    protected static function home_url_lang_path($path, $lang) {
+        $path = '/' . trim((string)$path, '/') . '/';
+        $lang = self::normalize_lang($lang);
+
+        // TR is default -> no prefix. Others -> prefix.
+        if ($lang !== '' && $lang !== 'tr') {
+            return home_url('/' . $lang . $path);
+        }
+        return home_url($path);
+    }
 
     protected static function is_verified($user_id) {
         $v = get_user_meta($user_id, self::META_VERIFIED, true);
@@ -293,11 +337,9 @@ class HM_EV_Core {
         return $path;
     }
 
-    protected static function redirect_verify($args = []) {
-        $lang = class_exists('HM_EV_Lang') ? HM_EV_Lang::get_lang() : 'en';
-        $base = class_exists('HM_EV_Lang')
-            ? HM_EV_Lang::home_url_lang(self::VERIFY_PAGE, $lang)
-            : home_url(self::VERIFY_PAGE);
+    protected static function redirect_verify($args = [], $user_id = 0) {
+        $lang = self::effective_lang($user_id);
+        $base = self::home_url_lang_path(self::VERIFY_PAGE, $lang);
 
         $url = $base;
 
@@ -314,11 +356,9 @@ class HM_EV_Core {
         exit;
     }
 
-    protected static function redirect_after_verify($args = []) {
-        $lang = class_exists('HM_EV_Lang') ? HM_EV_Lang::get_lang() : 'en';
-        $base = class_exists('HM_EV_Lang')
-            ? HM_EV_Lang::home_url_lang(self::AFTER_VERIFY, $lang)
-            : home_url(self::AFTER_VERIFY);
+    protected static function redirect_after_verify($args = [], $user_id = 0) {
+        $lang = self::effective_lang($user_id);
+        $base = self::home_url_lang_path(self::AFTER_VERIFY, $lang);
 
         $url = $base;
 
