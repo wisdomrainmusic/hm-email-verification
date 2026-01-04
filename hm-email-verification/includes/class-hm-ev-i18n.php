@@ -48,6 +48,12 @@ class HM_EV_I18n {
         $lang = strtolower((string)$lang);
         $file = HM_EV_PATH . 'languages/' . $lang . '.php';
         if (!file_exists($file)) return [];
+
+        // Force refresh in environments with aggressive OPcache
+        if (function_exists('opcache_invalidate')) {
+            @opcache_invalidate($file, true);
+        }
+
         $data = include $file;
         return is_array($data) ? $data : [];
     }

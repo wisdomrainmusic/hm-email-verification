@@ -6,11 +6,26 @@ if (!class_exists('HM_EV_Shortcode')) {
 class HM_EV_Shortcode {
 
     public static function init() {
+        // Register very late to override any other shortcode with same tag (e.g., WPCode)
+        add_action('init', [__CLASS__, 'register'], 999);
+    }
+
+    public static function register() {
         add_shortcode('hm_email_verification_notice', [__CLASS__, 'render']);
     }
 
     public static function render($atts = [], $content = '') {
-        $lang = class_exists('HM_EV_Lang') ? HM_EV_Lang::get_lang() : 'en';
+
+        // Prevent full-page caching for this dynamic output
+        if (!defined('DONOTCACHEPAGE'))   define('DONOTCACHEPAGE', true);
+        if (!defined('DONOTCACHEOBJECT')) define('DONOTCACHEOBJECT', true);
+        if (!defined('DONOTCACHEDB'))     define('DONOTCACHEDB', true);
+        if (function_exists('nocache_headers')) {
+            nocache_headers();
+        }
+
+        $lang  = class_exists('HM_EV_Lang') ? HM_EV_Lang::get_lang() : 'en';
+        $debug = !empty($_GET['hm_ev_debug']);
 
         // Status
         $v = isset($_GET['v']) ? sanitize_text_field(wp_unslash($_GET['v'])) : '';
@@ -21,7 +36,6 @@ class HM_EV_Shortcode {
         if ($v === 'invalid')  $msg_key = 'notice_invalid';
         if ($v === 'notfound') $msg_key = 'notice_notfound';
         if ($v === 'check')    $msg_key = 'notice_verify_required';
-        if ($v === 'already')  $msg_key = 'notice_verify_required'; // avoid new key
 
         $msg = class_exists('HM_EV_I18n') ? HM_EV_I18n::t($msg_key, $lang) : $msg_key;
 
@@ -35,10 +49,9 @@ class HM_EV_Shortcode {
         }
 
         // Build resend URL (language-aware)
+        $base = home_url(HM_EV_Core::VERIFY_PAGE);
         if (class_exists('HM_EV_Lang')) {
             $base = HM_EV_Lang::home_url_lang(HM_EV_Core::VERIFY_PAGE, $lang);
-        } else {
-            $base = home_url(HM_EV_Core::VERIFY_PAGE);
         }
 
         $args = ['hm_resend_verify' => 1];
@@ -54,7 +67,6 @@ class HM_EV_Shortcode {
         $html = '';
 
         if (function_exists('wc_print_notice')) {
-            // Use Woo notice styling
             ob_start();
             wc_print_notice($msg, 'notice');
             $notice_html = ob_get_clean();
@@ -63,14 +75,17 @@ class HM_EV_Shortcode {
             $html .= '<p style="margin-top:12px;">';
             $html .= '<a class="button" href="' . esc_url($resend_url) . '">' . esc_html($btn_label) . '</a>';
             $html .= '</p>';
-            return $html;
+        } else {
+            $html .= '<div class="hm-ev-notice" style="padding:12px 16px;border:1px solid #e2e2e2;border-radius:8px;margin:12px 0;">';
+            $html .= '<p style="margin:0 0 12px 0;">' . esc_html($msg) . '</p>';
+            $html .= '<a class="button" href="' . esc_url($resend_url) . '">' . esc_html($btn_label) . '</a>';
+            $html .= '</div>';
         }
 
-        // Fallback simple markup
-        $html .= '<div class="hm-ev-notice" style="padding:12px 16px;border:1px solid #e2e2e2;border-radius:8px;margin:12px 0;">';
-        $html .= '<p style="margin:0 0 12px 0;">' . esc_html($msg) . '</p>';
-        $html .= '<a class="button" href="' . esc_url($resend_url) . '">' . esc_html($btn_label) . '</a>';
-        $html .= '</div>';
+        if ($debug) {
+            $uri = isset($_SERVER['REQUEST_URI']) ? esc_html($_SERVER['REQUEST_URI']) : '';
+            $html .= "\n<!-- HM_EV_DEBUG lang=" . esc_html($lang) . " uri=" . $uri . " -->\n";
+        }
 
         return $html;
     }
