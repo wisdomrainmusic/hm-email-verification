@@ -1,18 +1,16 @@
 <?php
 return [
-    // UI
-    'notice_verify_required' => 'Email verification is required to activate your account. Please click the verification link sent to your inbox.',
-    'notice_sent' => 'A new verification email has been sent. Please check your inbox.',
-    'notice_cooldown' => 'Please wait a moment before requesting another email.',
-    'notice_invalid' => 'Invalid request. Please try again.',
-    'notice_notfound' => 'No account found for this email address.',
-    'button_resend' => 'Resend verification email',
+    'notice_verify_required' => 'Pro aktivaci účtu je vyžadováno ověření e-mailu. Klikněte na ověřovací odkaz ve vaší schránce.',
+    'notice_sent'            => 'Byl odeslán nový ověřovací e-mail. Zkontrolujte doručenou poštu.',
+    'notice_cooldown'        => 'Před dalším požadavkem chvíli počkejte.',
+    'notice_invalid'         => 'Neplatný požadavek. Zkuste to znovu.',
+    'notice_notfound'        => 'Pro tuto e-mailovou adresu nebyl nalezen žádný účet.',
+    'button_resend'          => 'Znovu odeslat ověřovací e-mail',
 
-    // Email
-    'email_subject_verify' => 'Verify your email address',
-    'email_greeting' => 'Dobrý den,',
-    'email_body_verify_line' => 'To activate your account on {site}, please verify your email address using the link below:',
-    'email_body_link_label' => 'Verification link:',
-    'email_ignore' => 'Pokud jste účet nevytvořili, tento e-mail ignorujte.',
-    'email_signature' => 'Regards, {site}',
+    'email_subject_verify'   => 'Ověřte svou e-mailovou adresu',
+    'email_greeting'         => 'Dobrý den,',
+    'email_body_verify_line' => 'Pro aktivaci účtu na {site} ověřte svou e-mailovou adresu pomocí odkazu níže:',
+    'email_body_link_label'  => 'Ověřovací odkaz:',
+    'email_ignore'           => 'Pokud jste si účet nevytvořili, můžete tento e-mail ignorovat.',
+    'email_signature'        => 'S pozdravem, {site}',
 ];

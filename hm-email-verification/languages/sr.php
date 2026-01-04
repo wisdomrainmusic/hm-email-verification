@@ -1,18 +1,16 @@
 <?php
 return [
-    // UI
-    'notice_verify_required' => 'Poslali smo link za verifikaciju na {email}. Potvrdite da biste nastavili.',
-    'notice_sent' => 'Imejl za verifikaciju poslat na {email}.',
-    'notice_cooldown' => 'Sačekajte pre nego što zatražite novi imejl za verifikaciju.',
-    'notice_invalid' => 'Nevažeći zahtev za verifikaciju.',
-    'notice_notfound' => '{email} nije pronađen.',
-    'button_resend' => 'Pošalji imejl za verifikaciju ponovo',
+    'notice_verify_required' => 'Потврда е-поште је потребна за активирање налога. Кликните на верификациони линк у вашем сандучету.',
+    'notice_sent'            => 'Нови верификациони имејл је послат. Проверите пријемно сандуче.',
+    'notice_cooldown'        => 'Сачекајте мало пре него што затражите нови имејл.',
+    'notice_invalid'         => 'Неважећи захтев. Покушајте поново.',
+    'notice_notfound'        => 'Није пронађен налог за ову е-пошту.',
+    'button_resend'          => 'Поново пошаљи верификациони имејл',
 
-    // Email
-    'email_subject_verify' => 'Potvrdite svoju imejl adresu',
-    'email_greeting' => 'Zdravo,',
-    'email_body_verify_line' => 'Da biste aktivirali nalog na {site}, potvrdite imejl adresu klikom na link ispod:',
-    'email_body_link_label' => 'Verification link:',
-    'email_ignore' => 'Ako niste napravili nalog, možete ignorisati ovu poruku.',
-    'email_signature' => 'Pozdrav, {site}',
+    'email_subject_verify'   => 'Потврдите вашу е-пошту',
+    'email_greeting'         => 'Здраво,',
+    'email_body_verify_line' => 'Да бисте активирали налог на {site}, потврдите е-пошту преко линка испод:',
+    'email_body_link_label'  => 'Верификациони линк:',
+    'email_ignore'           => 'Ако нисте креирали налог, можете игнорисати овај имејл.',
+    'email_signature'        => 'Поздрав, {site}',
 ];

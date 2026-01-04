@@ -1,18 +1,16 @@
 <?php
 return [
-    // UI
-    'notice_verify_required' => 'Seoladh nasc fíoraithe chuig {email}. Deimhnigh chun leanúint ar aghaidh.',
-    'notice_sent' => 'Seoladh ríomhphost fíoraithe chuig {email}.',
-    'notice_cooldown' => 'Fan sula n-iarrtar ríomhphost fíoraithe eile.',
-    'notice_invalid' => 'Iarratas fíoraithe neamhbhailí.',
-    'notice_notfound' => 'Ní bhfuarthas {email}.',
-    'button_resend' => 'Seol an ríomhphost fíoraithe arís',
+  'notice_verify_required' => 'Email verification is required to activate your account. Please click the verification link sent to your inbox.',
+  'notice_sent'            => 'A new verification email has been sent. Please check your inbox.',
+  'notice_cooldown'        => 'Please wait a moment before requesting another email.',
+  'notice_invalid'         => 'Invalid request. Please try again.',
+  'notice_notfound'        => 'No account found for this email address.',
+  'button_resend'          => 'Resend verification email',
 
-    // Email
-    'email_subject_verify' => 'Deimhnigh do sheoladh ríomhphoist',
-    'email_greeting' => 'Dia duit,',
-    'email_body_verify_line' => 'Chun do chuntas ar {site} a ghníomhachtú, deimhnigh do ríomhphost trí chliceáil ar an nasc thíos:',
-    'email_body_link_label' => 'Verification link:',
-    'email_ignore' => 'Mura chruthaigh tú cuntas, is féidir leat neamhaird a dhéanamh den ríomhphost seo.',
-    'email_signature' => 'Le meas, {site}',
+  'email_subject_verify'   => 'Verify your email address',
+  'email_greeting'         => 'Hello,',
+  'email_body_verify_line' => 'To activate your account on {site}, please verify your email address using the link below:',
+  'email_body_link_label'  => 'Verification link:',
+  'email_ignore'           => 'If you did not create an account, you can ignore this email.',
+  'email_signature'        => 'Regards, {site}',
 ];

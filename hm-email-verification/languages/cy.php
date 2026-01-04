@@ -1,18 +1,16 @@
 <?php
 return [
-    // UI
-    'notice_verify_required' => 'Anfonwyd dolen dilysu i {email}. Cadarnhewch i barhau.',
-    'notice_sent' => 'Anfonwyd e-bost dilysu i {email}.',
-    'notice_cooldown' => 'Arhoswch cyn gofyn am e-bost dilysu arall.',
-    'notice_invalid' => 'Cais dilysu annilys.',
-    'notice_notfound' => 'Ni ddarganfuwyd {email}.',
-    'button_resend' => 'Anfon e-bost dilysu eto',
+  'notice_verify_required' => 'Email verification is required to activate your account. Please click the verification link sent to your inbox.',
+  'notice_sent'            => 'A new verification email has been sent. Please check your inbox.',
+  'notice_cooldown'        => 'Please wait a moment before requesting another email.',
+  'notice_invalid'         => 'Invalid request. Please try again.',
+  'notice_notfound'        => 'No account found for this email address.',
+  'button_resend'          => 'Resend verification email',
 
-    // Email
-    'email_subject_verify' => 'Cadarnhewch eich cyfeiriad e-bost',
-    'email_greeting' => 'Helo,',
-    'email_body_verify_line' => 'I actifadu eich cyfrif ar {site}, cadarnhewch eich e-bost drwy glicio ar y ddolen isod:',
-    'email_body_link_label' => 'Verification link:',
-    'email_ignore' => 'Os na wnaethoch greu cyfrif, gallwch anwybyddu\'r e-bost hwn.',
-    'email_signature' => 'Cofion, {site}',
+  'email_subject_verify'   => 'Verify your email address',
+  'email_greeting'         => 'Hello,',
+  'email_body_verify_line' => 'To activate your account on {site}, please verify your email address using the link below:',
+  'email_body_link_label'  => 'Verification link:',
+  'email_ignore'           => 'If you did not create an account, you can ignore this email.',
+  'email_signature'        => 'Regards, {site}',
 ];

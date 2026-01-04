@@ -1,18 +1,16 @@
 <?php
 return [
-    // UI
-    'notice_verify_required' => 'Email verification is required to activate your account. Please click the verification link sent to your inbox.',
-    'notice_sent' => 'A new verification email has been sent. Please check your inbox.',
-    'notice_cooldown' => 'Please wait a moment before requesting another email.',
-    'notice_invalid' => 'Invalid request. Please try again.',
-    'notice_notfound' => 'No account found for this email address.',
-    'button_resend' => 'Resend verification email',
+    'notice_verify_required' => 'Weryfikacja e-mail jest wymagana, aby aktywować konto. Kliknij link weryfikacyjny wysłany na skrzynkę.',
+    'notice_sent'            => 'Wysłano nową wiadomość weryfikacyjną. Sprawdź skrzynkę odbiorczą.',
+    'notice_cooldown'        => 'Odczekaj chwilę przed ponowną prośbą o e-mail.',
+    'notice_invalid'         => 'Nieprawidłowe żądanie. Spróbuj ponownie.',
+    'notice_notfound'        => 'Nie znaleziono konta dla tego adresu e-mail.',
+    'button_resend'          => 'Wyślij e-mail weryfikacyjny ponownie',
 
-    // Email
-    'email_subject_verify' => 'Verify your email address',
-    'email_greeting' => 'Cześć,',
-    'email_body_verify_line' => 'To activate your account on {site}, please verify your email address using the link below:',
-    'email_body_link_label' => 'Verification link:',
-    'email_ignore' => 'Jeśli nie utworzyłeś konta, zignoruj tę wiadomość.',
-    'email_signature' => 'Regards, {site}',
+    'email_subject_verify'   => 'Zweryfikuj swój adres e-mail',
+    'email_greeting'         => 'Witaj,',
+    'email_body_verify_line' => 'Aby aktywować konto w {site}, zweryfikuj adres e-mail, klikając poniższy link:',
+    'email_body_link_label'  => 'Link weryfikacyjny:',
+    'email_ignore'           => 'Jeśli nie zakładałeś konta, możesz zignorować tę wiadomość.',
+    'email_signature'        => 'Pozdrawiamy, {site}',
 ];

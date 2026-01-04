@@ -1,18 +1,16 @@
 <?php
 return [
-    // UI
-    'notice_verify_required' => 'Poslali smo verifikacijski link na {email}. Potvrdite da nastavite.',
-    'notice_sent' => 'Verifikacijski e-mail poslan na {email}.',
-    'notice_cooldown' => 'Sačekajte prije nego zatražite još jedan verifikacijski e-mail.',
-    'notice_invalid' => 'Nevažeći zahtjev za verifikaciju.',
-    'notice_notfound' => '{email} nije pronađen.',
-    'button_resend' => 'Ponovo pošalji verifikacijski e-mail',
+    'notice_verify_required' => 'Potrebna je potvrda e-maila za aktivaciju vašeg računa. Kliknite na verifikacijski link u vašem sandučetu.',
+    'notice_sent'            => 'Poslan je novi verifikacijski e-mail. Provjerite inbox.',
+    'notice_cooldown'        => 'Sačekajte kratko prije nego zatražite novi e-mail.',
+    'notice_invalid'         => 'Neispravan zahtjev. Pokušajte ponovo.',
+    'notice_notfound'        => 'Nije pronađen račun za ovu e-mail adresu.',
+    'button_resend'          => 'Ponovo pošalji verifikacijski e-mail',
 
-    // Email
-    'email_subject_verify' => 'Potvrdite svoju e-mail adresu',
-    'email_greeting' => 'Zdravo,',
-    'email_body_verify_line' => 'Da biste aktivirali račun na {site}, potvrdite svoju e-mail adresu klikom na link ispod:',
-    'email_body_link_label' => 'Verification link:',
-    'email_ignore' => 'Ako niste kreirali račun, možete ignorisati ovaj e-mail.',
-    'email_signature' => 'Pozdrav, {site}',
+    'email_subject_verify'   => 'Potvrdite svoju e-mail adresu',
+    'email_greeting'         => 'Zdravo,',
+    'email_body_verify_line' => 'Da biste aktivirali račun na {site}, potvrdite e-mail putem linka ispod:',
+    'email_body_link_label'  => 'Verifikacijski link:',
+    'email_ignore'           => 'Ako niste kreirali račun, možete ignorisati ovaj e-mail.',
+    'email_signature'        => 'Srdačno, {site}',
 ];

@@ -1,18 +1,16 @@
 <?php
 return [
-    // UI
-    'notice_verify_required' => 'Təsdiq linki {email} ünvanına göndərildi. Davam etmək üçün təsdiqləyin.',
-    'notice_sent' => 'Təsdiq e-poçtu {email} ünvanına göndərildi.',
-    'notice_cooldown' => 'Yeni təsdiq e-poçtu istəmədən əvvəl gözləyin.',
-    'notice_invalid' => 'Yanlış təsdiq sorğusu.',
-    'notice_notfound' => '{email} tapılmadı.',
-    'button_resend' => 'Təsdiq e-poçtunu yenidən göndər',
+    'notice_verify_required' => 'Hesabınızı aktivləşdirmək üçün e-poçt təsdiqi tələb olunur. Gələn qutunuza göndərilən linkə klikləyin.',
+    'notice_sent'            => 'Yeni təsdiq e-poçtu göndərildi. Zəhmət olmasa gələn qutunuzu yoxlayın.',
+    'notice_cooldown'        => 'Yeni e-poçt istəmədən əvvəl bir az gözləyin.',
+    'notice_invalid'         => 'Yanlış sorğu. Yenidən cəhd edin.',
+    'notice_notfound'        => 'Bu e-poçt ünvanı üçün hesab tapılmadı.',
+    'button_resend'          => 'Təsdiq e-poçtunu yenidən göndər',
 
-    // Email
-    'email_subject_verify' => 'E-poçt ünvanınızı təsdiqləyin',
-    'email_greeting' => 'Salam,',
-    'email_body_verify_line' => '{site} hesabınızı aktivləşdirmək üçün aşağıdakı keçidə klik edərək e-poçtunuzu təsdiqləyin:',
-    'email_body_link_label' => 'Verification link:',
-    'email_ignore' => 'Hesab yaratmamısınızsa, bu məktubu görməzlikdən gələ bilərsiniz.',
-    'email_signature' => 'Hörmətlə, {site}',
+    'email_subject_verify'   => 'E-poçt ünvanınızı təsdiqləyin',
+    'email_greeting'         => 'Salam,',
+    'email_body_verify_line' => '{site} saytında hesabınızı aktivləşdirmək üçün aşağıdakı link vasitəsilə e-poçtunuzu təsdiqləyin:',
+    'email_body_link_label'  => 'Təsdiq linki:',
+    'email_ignore'           => 'Əgər hesab yaratmamısınızsa, bu e-poçtu nəzərə almaya bilərsiniz.',
+    'email_signature'        => 'Hörmətlə, {site}',
 ];
