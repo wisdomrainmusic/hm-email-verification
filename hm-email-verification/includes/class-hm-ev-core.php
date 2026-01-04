@@ -160,6 +160,14 @@ class HM_EV_Core {
         // Only applies to logged-in users
         if (!is_user_logged_in()) return;
 
+        $user_id = get_current_user_id();
+        if (!$user_id) return;
+
+        // Bypass for admins / wp-admin / non-customer roles
+        if (self::should_bypass_gate($user_id)) {
+            return;
+        }
+
         // Don't gate on verify page itself (avoid loops)
         if (self::is_verify_page_request()) return;
 
@@ -187,6 +195,35 @@ class HM_EV_Core {
     /* ==============================
      * Helpers
      * ============================== */
+
+    protected static function should_bypass_gate($user_id) {
+        $user_id = absint($user_id);
+        if (!$user_id) return true;
+
+        // Never gate inside wp-admin
+        if (is_admin()) return true;
+
+        // Never gate during cron / ajax / rest
+        if (function_exists('wp_doing_ajax') && wp_doing_ajax()) return true;
+        if (defined('REST_REQUEST') && REST_REQUEST) return true;
+        if (defined('DOING_CRON') && DOING_CRON) return true;
+
+        // Bypass for admins / shop managers / anyone who can manage the site
+        if (user_can($user_id, 'manage_options') || user_can($user_id, 'administrator')) return true;
+        if (user_can($user_id, 'manage_woocommerce')) return true;
+
+        // Only gate typical customer roles
+        $u = get_userdata($user_id);
+        $roles = ($u && is_array($u->roles)) ? $u->roles : [];
+        $gate_roles = ['customer', 'subscriber'];
+
+        foreach ($roles as $r) {
+            if (in_array($r, $gate_roles, true)) return false;
+        }
+
+        // Default: do not gate unknown roles
+        return true;
+    }
 
     protected static function normalize_lang($lang) {
         $lang = strtolower(trim((string)$lang));
