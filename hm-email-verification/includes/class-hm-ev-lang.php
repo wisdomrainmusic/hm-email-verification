@@ -27,18 +27,34 @@ class HM_EV_Lang {
     /**
      * Get current language.
      * Priority:
+     * 0) Explicit query override (?lang=)
      * 1) HMPC (if present) via filters/actions detection
-     * 2) URL prefix first segment (/de/..., /fr/...)
-     * 3) fallback en
+     * 2) Cookie (common HMPC cookie keys)
+     * 3) URL prefix first segment (/de/..., /fr/...)
+     * 4) locale fallback (de_DE -> de)
+     * 5) fallback en
      */
     public static function get_lang() {
+        // 0) explicit query override (rare but useful)
+        if (!empty($_GET['lang'])) {
+            return self::normalize(wp_unslash($_GET['lang']));
+        }
+
         // 1) HMPC-first (best effort, non-fatal)
         $hmpc = self::get_lang_from_hmpc();
         if ($hmpc) return self::normalize($hmpc);
 
-        // 2) URL prefix
+        // 2) Cookie-based language (HMPC often uses cookies)
+        $cookie = self::get_lang_from_cookie();
+        if ($cookie) return self::normalize($cookie);
+
+        // 3) URL prefix
         $prefix = self::get_lang_from_url_prefix();
         if ($prefix) return self::normalize($prefix);
+
+        // 4) Locale fallback (de_DE -> de, tr_TR -> tr, etc.)
+        $loc = self::get_lang_from_locale();
+        if ($loc) return self::normalize($loc);
 
         return 'en';
     }
@@ -108,6 +124,65 @@ class HM_EV_Lang {
                 if (is_string($val) && $val !== '') return $val;
             }
         }
+
+        return null;
+    }
+
+    protected static function get_lang_from_cookie() {
+        if (empty($_COOKIE) || !is_array($_COOKIE)) return null;
+
+        // Most common candidates for language cookie keys
+        $key_candidates = [
+            'hmpc_lang',
+            'hmpcv2_lang',
+            'hm_lang',
+            'hm_language',
+            'site_lang',
+            'current_lang',
+            'lang',
+        ];
+
+        // 1) direct key hits
+        foreach ($key_candidates as $k) {
+            if (!empty($_COOKIE[$k])) {
+                $val = wp_unslash($_COOKIE[$k]);
+                if (is_string($val) && $val !== '') return $val;
+            }
+        }
+
+        // 2) heuristic scan: any cookie name containing "lang" with allowed value
+        foreach ($_COOKIE as $k => $v) {
+            $k = strtolower((string)$k);
+            if (strpos($k, 'lang') === false) continue;
+
+            $val = is_array($v) ? '' : (string)wp_unslash($v);
+            $val = strtolower(trim($val));
+
+            // Sometimes cookie stores locale like de_DE
+            if (strpos($val, '_') !== false) {
+                $val = explode('_', $val)[0];
+            }
+
+            if (self::is_lang($val)) return $val;
+        }
+
+        return null;
+    }
+
+    protected static function get_lang_from_locale() {
+        $locale = function_exists('get_locale') ? get_locale() : '';
+        if (!is_string($locale) || $locale === '') return null;
+
+        $locale = strtolower($locale);
+
+        // de_de -> de, tr_tr -> tr
+        if (strpos($locale, '_') !== false) {
+            $parts = explode('_', $locale);
+            if (!empty($parts[0])) return $parts[0];
+        }
+
+        // fallback
+        if (strlen($locale) >= 2) return substr($locale, 0, 2);
 
         return null;
     }
