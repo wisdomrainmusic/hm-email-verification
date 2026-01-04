@@ -1,18 +1,16 @@
 <?php
 return [
-    // UI
-    'notice_verify_required' => 'Hem enviat un enllaç de verificació a {email}. Confirma per continuar.',
-    'notice_sent' => 'Correu de verificació enviat a {email}.',
-    'notice_cooldown' => 'Espera abans de sol·licitar un altre correu de verificació.',
-    'notice_invalid' => 'Sol·licitud de verificació no vàlida.',
-    'notice_notfound' => '{email} no s’ha trobat.',
-    'button_resend' => 'Reenviar correu de verificació',
+  'notice_verify_required' => 'Email verification is required to activate your account. Please click the verification link sent to your inbox.',
+  'notice_sent'            => 'A new verification email has been sent. Please check your inbox.',
+  'notice_cooldown'        => 'Please wait a moment before requesting another email.',
+  'notice_invalid'         => 'Invalid request. Please try again.',
+  'notice_notfound'        => 'No account found for this email address.',
+  'button_resend'          => 'Resend verification email',
 
-    // Email
-    'email_subject_verify' => 'Confirma la teva adreça de correu electrònic',
-    'email_greeting' => 'Hola,',
-    'email_body_verify_line' => 'Per activar el teu compte a {site}, confirma el teu correu electrònic fent clic a l’enllaç següent:',
-    'email_body_link_label' => 'Verification link:',
-    'email_ignore' => 'Si no has creat un compte, pots ignorar aquest correu.',
-    'email_signature' => 'Atentament, {site}',
+  'email_subject_verify'   => 'Verify your email address',
+  'email_greeting'         => 'Hello,',
+  'email_body_verify_line' => 'To activate your account on {site}, please verify your email address using the link below:',
+  'email_body_link_label'  => 'Verification link:',
+  'email_ignore'           => 'If you did not create an account, you can ignore this email.',
+  'email_signature'        => 'Regards, {site}',
 ];

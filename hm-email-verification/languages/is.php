@@ -1,18 +1,16 @@
 <?php
 return [
-    // UI
-    'notice_verify_required' => 'Við sendum staðfestingartengil á {email}. Staðfestu til að halda áfram.',
-    'notice_sent' => 'Staðfestingarpóstur sendur á {email}.',
-    'notice_cooldown' => 'Bíddu áður en þú biður um annan staðfestingarpóst.',
-    'notice_invalid' => 'Ógild beiðni um staðfestingu.',
-    'notice_notfound' => '{email} fannst ekki.',
-    'button_resend' => 'Senda staðfestingarpóst aftur',
+  'notice_verify_required' => 'Staðfesting á netfangi er nauðsynleg til að virkja aðganginn þinn. Smelltu á staðfestingartengilinn í pósthólfinu.',
+  'notice_sent'            => 'Nýr staðfestingarpóstur hefur verið sendur. Athugaðu pósthólfið.',
+  'notice_cooldown'        => 'Bíddu aðeins áður en þú biður um annan póst.',
+  'notice_invalid'         => 'Ógild beiðni. Reyndu aftur.',
+  'notice_notfound'        => 'Enginn aðgangur fannst fyrir þetta netfang.',
+  'button_resend'          => 'Senda staðfestingarpóst aftur',
 
-    // Email
-    'email_subject_verify' => 'Staðfestu netfangið þitt',
-    'email_greeting' => 'Hæ,',
-    'email_body_verify_line' => 'Til að virkja aðganginn þinn á {site}, staðfestu netfangið með því að smella á tengilinn hér að neðan:',
-    'email_body_link_label' => 'Verification link:',
-    'email_ignore' => 'Ef þú stofnaðir ekki aðgang geturðu hunsað þennan tölvupóst.',
-    'email_signature' => 'Kveðja, {site}',
+  'email_subject_verify'   => 'Staðfestu netfangið þitt',
+  'email_greeting'         => 'Halló,',
+  'email_body_verify_line' => 'Til að virkja aðganginn þinn á {site}, staðfestu netfangið með tenglinum hér að neðan:',
+  'email_body_link_label'  => 'Staðfestingartengill:',
+  'email_ignore'           => 'Ef þú bjóst ekki til aðgang geturðu hunsað þennan póst.',
+  'email_signature'        => 'Kveðja, {site}',
 ];

@@ -1,18 +1,16 @@
 <?php
 return [
-    // UI
-    'notice_verify_required' => 'أرسلنا رابط تحقق إلى {email}. يرجى التأكيد للمتابعة.',
-    'notice_sent' => 'تم إرسال بريد التحقق إلى {email}.',
-    'notice_cooldown' => 'يرجى الانتظار قبل طلب بريد تحقق آخر.',
-    'notice_invalid' => 'طلب تحقق غير صالح.',
-    'notice_notfound' => 'لم يتم العثور على {email}.',
-    'button_resend' => 'إعادة إرسال بريد التحقق',
+    'notice_verify_required' => 'تأكيد البريد الإلكتروني مطلوب لتفعيل حسابك. يرجى النقر على رابط التحقق المرسل إلى بريدك الوارد.',
+    'notice_sent'            => 'تم إرسال بريد تحقق جديد. يرجى التحقق من بريدك الوارد.',
+    'notice_cooldown'        => 'يرجى الانتظار قليلاً قبل طلب بريد آخر.',
+    'notice_invalid'         => 'طلب غير صالح. حاول مرة أخرى.',
+    'notice_notfound'        => 'لم يتم العثور على حساب لهذا البريد الإلكتروني.',
+    'button_resend'          => 'إعادة إرسال بريد التحقق',
 
-    // Email
-    'email_subject_verify' => 'تأكيد عنوان بريدك الإلكتروني',
-    'email_greeting' => 'مرحبًا،',
-    'email_body_verify_line' => 'لتنشيط حسابك على {site}، يرجى تأكيد بريدك الإلكتروني بالضغط على الرابط أدناه:',
-    'email_body_link_label' => 'Verification link:',
-    'email_ignore' => 'إذا لم تقم بإنشاء حساب، يمكنك تجاهل هذه الرسالة.',
-    'email_signature' => 'مع التحية، {site}',
+    'email_subject_verify'   => 'تحقق من عنوان بريدك الإلكتروني',
+    'email_greeting'         => 'مرحباً،',
+    'email_body_verify_line' => 'لتفعيل حسابك على {site}، يرجى التحقق من بريدك الإلكتروني عبر الرابط أدناه:',
+    'email_body_link_label'  => 'رابط التحقق:',
+    'email_ignore'           => 'إذا لم تقم بإنشاء حساب، يمكنك تجاهل هذا البريد.',
+    'email_signature'        => 'مع التحية، {site}',
 ];

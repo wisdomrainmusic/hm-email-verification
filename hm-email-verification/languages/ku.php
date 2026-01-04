@@ -1,18 +1,16 @@
 <?php
 return [
-    // UI
-    'notice_verify_required' => 'Me lînkek piştrastkirinê ji {email} re şand. Ji bo domandinê piştrast bike.',
-    'notice_sent' => 'E-nameya piştrastkirinê ji {email} re hate şandin.',
-    'notice_cooldown' => 'Ji ber ku e-nameyek din bixwazî, ji kerema xwe hinekî bisekine.',
-    'notice_invalid' => 'Daxwazeke nederbasdar ji bo piştrastkirinê.',
-    'notice_notfound' => '{email} nehate dîtin.',
-    'button_resend' => 'E-nameya piştrastkirinê dubare bişîne',
+  'notice_verify_required' => 'Email verification is required to activate your account. Please click the verification link sent to your inbox.',
+  'notice_sent'            => 'A new verification email has been sent. Please check your inbox.',
+  'notice_cooldown'        => 'Please wait a moment before requesting another email.',
+  'notice_invalid'         => 'Invalid request. Please try again.',
+  'notice_notfound'        => 'No account found for this email address.',
+  'button_resend'          => 'Resend verification email',
 
-    // Email
-    'email_subject_verify' => 'Navnîşana e-nameya xwe piştrast bike',
-    'email_greeting' => 'Slav,',
-    'email_body_verify_line' => 'Ji bo çalakirinê hesabê te di {site} de, navnîşana e-nameya xwe bi tikandina lînka jêrîn piştrast bike:',
-    'email_body_link_label' => 'Verification link:',
-    'email_ignore' => 'Heke te hesabê çênekiriye tune, dikarî vê e-nameyê bêdeng bikî.',
-    'email_signature' => 'Bi rêz, {site}',
+  'email_subject_verify'   => 'Verify your email address',
+  'email_greeting'         => 'Hello,',
+  'email_body_verify_line' => 'To activate your account on {site}, please verify your email address using the link below:',
+  'email_body_link_label'  => 'Verification link:',
+  'email_ignore'           => 'If you did not create an account, you can ignore this email.',
+  'email_signature'        => 'Regards, {site}',
 ];

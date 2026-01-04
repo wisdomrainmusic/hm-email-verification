@@ -1,18 +1,16 @@
 <?php
 return [
-    // UI
-    'notice_verify_required' => 'ჩვენ გავაგზავნეთ დადასტურების ბმული {email}-ზე. დაადასტურეთ გასაგრძელებლად.',
-    'notice_sent' => 'დადასტურების ელფოსტა გაიგზავნა {email}-ზე.',
-    'notice_cooldown' => 'გთხოვთ, დაელოდეთ კიდევ ერთ დადასტურების წერილამდე.',
-    'notice_invalid' => 'არასწორი დადასტურების მოთხოვნა.',
-    'notice_notfound' => '{email} ვერ მოიძებნა.',
-    'button_resend' => 'გაგზავნეთ დადასტურების წერილი კვლავ',
+  'notice_verify_required' => 'Email verification is required to activate your account. Please click the verification link sent to your inbox.',
+  'notice_sent'            => 'A new verification email has been sent. Please check your inbox.',
+  'notice_cooldown'        => 'Please wait a moment before requesting another email.',
+  'notice_invalid'         => 'Invalid request. Please try again.',
+  'notice_notfound'        => 'No account found for this email address.',
+  'button_resend'          => 'Resend verification email',
 
-    // Email
-    'email_subject_verify' => 'დაადასტურეთ თქვენი ელფოსტა',
-    'email_greeting' => 'გამარჯობა,',
-    'email_body_verify_line' => 'თქვენი ანგარიშის გასააქტიურებლად {site}-ზე, დაადასტურეთ ელფოსტა ქვემოთ მოცემულ ბმულზე დაკლიკებით:',
-    'email_body_link_label' => 'Verification link:',
-    'email_ignore' => 'თუ ანგარიში არ შეგიქმნიათ, შეგიძლიათ გამოიტოვოთ ეს წერილი.',
-    'email_signature' => 'პატივისცემით, {site}',
+  'email_subject_verify'   => 'Verify your email address',
+  'email_greeting'         => 'Hello,',
+  'email_body_verify_line' => 'To activate your account on {site}, please verify your email address using the link below:',
+  'email_body_link_label'  => 'Verification link:',
+  'email_ignore'           => 'If you did not create an account, you can ignore this email.',
+  'email_signature'        => 'Regards, {site}',
 ];

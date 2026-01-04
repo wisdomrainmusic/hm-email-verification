@@ -1,18 +1,16 @@
 <?php
 return [
-    // UI
-    'notice_verify_required' => 'Poslali smo potrditveno povezavo na {email}. Potrdite za nadaljevanje.',
-    'notice_sent' => 'Potrditvena e-pošta poslana na {email}.',
-    'notice_cooldown' => 'Preden zahtevate novo potrditveno e-pošto, prosimo počakajte.',
-    'notice_invalid' => 'Neveljavna zahteva za potrditev.',
-    'notice_notfound' => '{email} ni bil najden.',
-    'button_resend' => 'Pošlji potrditveno e-pošto znova',
+  'notice_verify_required' => 'Za aktivacijo računa je potrebna potrditev e-pošte. Kliknite potrditveno povezavo v prejetih sporočilih.',
+  'notice_sent'            => 'Poslano je novo potrditveno e-poštno sporočilo. Preverite nabiralnik.',
+  'notice_cooldown'        => 'Prosimo, počakajte trenutek, preden zahtevate novo sporočilo.',
+  'notice_invalid'         => 'Neveljavna zahteva. Poskusite znova.',
+  'notice_notfound'        => 'Za ta e-poštni naslov ni najdenega računa.',
+  'button_resend'          => 'Ponovno pošlji potrditveno e-pošto',
 
-    // Email
-    'email_subject_verify' => 'Potrdite svoj e-poštni naslov',
-    'email_greeting' => 'Pozdravljeni,',
-    'email_body_verify_line' => 'Za aktivacijo računa na {site} potrdite svoj e-poštni naslov s klikom na spodnjo povezavo:',
-    'email_body_link_label' => 'Verification link:',
-    'email_ignore' => 'Če niste ustvarili računa, lahko to e-pošto prezrete.',
-    'email_signature' => 'Lep pozdrav, {site}',
+  'email_subject_verify'   => 'Potrdite svoj e-poštni naslov',
+  'email_greeting'         => 'Pozdravljeni,',
+  'email_body_verify_line' => 'Za aktivacijo računa na {site} potrdite e-pošto preko spodnje povezave:',
+  'email_body_link_label'  => 'Potrditvena povezava:',
+  'email_ignore'           => 'Če niste ustvarili računa, lahko to sporočilo prezrete.',
+  'email_signature'        => 'Lep pozdrav, {site}',
 ];
