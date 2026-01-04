@@ -219,12 +219,31 @@ class HM_EV_Core {
 
         $site = wp_specialchars_decode(get_bloginfo('name'), ENT_QUOTES);
 
-        $subject = 'Verify your email address';
-        $body  = "Hello,\n\n";
-        $body .= "To activate your account on {$site}, please verify your email address by clicking the link below:\n\n";
+        $subject = class_exists('HM_EV_I18n')
+            ? HM_EV_I18n::t('email_subject', $lang)
+            : 'Verify your email address';
+
+        $body  = class_exists('HM_EV_I18n')
+            ? HM_EV_I18n::t('email_greeting', $lang)
+            : 'Hello,';
+        $body .= "\n\n";
+
+        $body .= class_exists('HM_EV_I18n')
+            ? HM_EV_I18n::t('email_intro', $lang, ['site' => $site])
+            : "To activate your account on {$site}, please verify your email address by clicking the link below:";
+        $body .= "\n\n";
+
         $body .= $verify_url . "\n\n";
-        $body .= "If you did not create an account, you can ignore this email.\n\n";
-        $body .= "Regards,\n{$site}\n";
+
+        $body .= class_exists('HM_EV_I18n')
+            ? HM_EV_I18n::t('email_ignore', $lang)
+            : 'If you did not create an account, you can ignore this email.';
+        $body .= "\n\n";
+
+        $body .= class_exists('HM_EV_I18n')
+            ? HM_EV_I18n::t('email_signoff', $lang, ['site' => $site])
+            : "Regards,\n{$site}";
+        $body .= "\n";
 
         $headers = [];
         $headers[] = 'Content-Type: text/plain; charset=UTF-8';
