@@ -7,6 +7,7 @@ class HM_EV_Core {
     const META_VERIFIED = '_hm_email_verified';
     const META_TOKEN    = '_hm_email_verify_token';
     const META_TGEN     = '_hm_email_verify_token_generated';
+    const META_LANG     = '_hm_ev_lang';
 
     const VERIFY_PAGE   = '/email-verification/';
     const AFTER_VERIFY  = '/my-account/';
@@ -47,6 +48,12 @@ class HM_EV_Core {
         $tgen = intval(get_user_meta($user_id, self::META_TGEN, true));
         if ($tgen <= 0) {
             update_user_meta($user_id, self::META_TGEN, time());
+        }
+
+        // Store registration language (best effort)
+        if (class_exists('HM_EV_Lang')) {
+            $lang = HM_EV_Lang::get_lang();
+            update_user_meta($user_id, self::META_LANG, $lang);
         }
 
         // Send verification email (safe; idempotent-ish)
@@ -188,13 +195,26 @@ class HM_EV_Core {
 
         $to = $user->user_email;
 
+        // Language for link (prefer stored user lang, fallback current)
+        $lang = get_user_meta($user_id, self::META_LANG, true);
+        if (class_exists('HM_EV_Lang')) {
+            $lang = HM_EV_Lang::normalize($lang ?: HM_EV_Lang::get_lang());
+        } else {
+            $lang = 'en';
+        }
+
+        $base = home_url('/');
+        if (class_exists('HM_EV_Lang')) {
+            $base = HM_EV_Lang::home_url_lang('/', $lang);
+        }
+
         $verify_url = add_query_arg(
             [
                 'hm_verify' => 1,
                 'uid'       => $user_id,
                 'token'     => $token,
             ],
-            home_url('/')
+            $base
         );
 
         $site = wp_specialchars_decode(get_bloginfo('name'), ENT_QUOTES);
@@ -252,19 +272,49 @@ class HM_EV_Core {
     }
 
     protected static function redirect_verify($args = []) {
-        $url = self::build_url(self::VERIFY_PAGE, $args);
+        $lang = class_exists('HM_EV_Lang') ? HM_EV_Lang::get_lang() : 'en';
+        $base = class_exists('HM_EV_Lang')
+            ? HM_EV_Lang::home_url_lang(self::VERIFY_PAGE, $lang)
+            : home_url(self::VERIFY_PAGE);
+
+        $url = $base;
+
+        if (!empty($args) && is_array($args)) {
+            foreach ($args as $k => $v) {
+                if ($v === null || $v === '') unset($args[$k]);
+            }
+            if (!empty($args)) {
+                $url = add_query_arg($args, $base);
+            }
+        }
+
         wp_safe_redirect($url);
         exit;
     }
 
     protected static function redirect_after_verify($args = []) {
-        $url = self::build_url(self::AFTER_VERIFY, $args);
+        $lang = class_exists('HM_EV_Lang') ? HM_EV_Lang::get_lang() : 'en';
+        $base = class_exists('HM_EV_Lang')
+            ? HM_EV_Lang::home_url_lang(self::AFTER_VERIFY, $lang)
+            : home_url(self::AFTER_VERIFY);
+
+        $url = $base;
+
+        if (!empty($args) && is_array($args)) {
+            foreach ($args as $k => $v) {
+                if ($v === null || $v === '') unset($args[$k]);
+            }
+            if (!empty($args)) {
+                $url = add_query_arg($args, $base);
+            }
+        }
+
         wp_safe_redirect($url);
         exit;
     }
 
     protected static function build_url($path, $args = []) {
-        $base = home_url($path);
+        $base = self::home_url_lang_safe($path);
         if (!empty($args) && is_array($args)) {
             // Remove empty args
             foreach ($args as $k => $v) {
@@ -273,6 +323,19 @@ class HM_EV_Core {
             $base = add_query_arg($args, $base);
         }
         return $base;
+    }
+
+    /**
+     * Wrapper around HM_EV_Lang::home_url_lang with a graceful fallback when
+     * the language helper isn't available for any reason (defensive guard).
+     */
+    protected static function home_url_lang_safe($path, $lang = null) {
+        if (class_exists('HM_EV_Lang')) {
+            return HM_EV_Lang::home_url_lang($path, $lang);
+        }
+
+        $path = '/' . ltrim((string)$path, '/');
+        return home_url($path);
     }
 }
 
