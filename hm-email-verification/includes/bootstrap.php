@@ -1,20 +1,19 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-    exit;
-}
+if (!defined('ABSPATH')) { exit; }
 
-/**
- * Bootstrap loader
- * - Keep all requires and initialization in one place
- */
+if (!function_exists('hm_ev_bootstrap')) {
+    function hm_ev_bootstrap() {
 
-require_once HM_EV_PATH . 'includes/class-hm-ev-router.php';
+        // Core (Commit 2)
+        $core = HM_EV_PATH . 'includes/class-hm-ev-core.php';
+        if (file_exists($core)) {
+            require_once $core;
+        }
 
-/**
- * Initialize plugin pieces.
- */
-function hm_ev_bootstrap() {
-    HM_EV_Router::init();
+        if (class_exists('HM_EV_Core')) {
+            HM_EV_Core::init();
+        }
+    }
 }
 
 hm_ev_bootstrap();
