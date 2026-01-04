@@ -7,7 +7,7 @@ class HM_EV_Core {
     const META_VERIFIED = '_hm_email_verified';
     const META_TOKEN    = '_hm_email_verify_token';
     const META_TGEN     = '_hm_email_verify_token_generated';
-    const META_LANG     = '_hm_ev_lang';
+    const META_LANG     = '_hm_ev_user_lang';
 
     const VERIFY_PAGE   = '/email-verification/';
     const AFTER_VERIFY  = '/my-account/';
@@ -50,11 +50,20 @@ class HM_EV_Core {
             update_user_meta($user_id, self::META_TGEN, time());
         }
 
-        // Store registration language (best effort)
+        // Store user's language at registration time (lock mail language)
+        $lang = 'en';
         if (class_exists('HM_EV_Lang')) {
             $lang = HM_EV_Lang::get_lang();
-            update_user_meta($user_id, self::META_LANG, $lang);
+        } else {
+            // lightweight fallback: url prefix (de), else locale
+            $uri = isset($_SERVER['REQUEST_URI']) ? (string)$_SERVER['REQUEST_URI'] : '';
+            if (preg_match('~^/([a-z]{2})/~', $uri, $m)) $lang = strtolower($m[1]);
+            $loc = function_exists('get_locale') ? get_locale() : '';
+            if ($lang === 'en' && is_string($loc) && strpos($loc, '_') !== false) {
+                $lang = strtolower(explode('_', $loc)[0]);
+            }
         }
+        update_user_meta($user_id, self::META_LANG, $lang);
 
         // Send verification email (safe; idempotent-ish)
         self::send_verify_email($user_id, $token);
@@ -195,8 +204,13 @@ class HM_EV_Core {
 
         $to = $user->user_email;
 
+        $user_lang = get_user_meta($user_id, self::META_LANG, true);
+        if (!$user_lang) {
+            $user_lang = class_exists('HM_EV_Lang') ? HM_EV_Lang::get_lang() : 'en';
+        }
+
         // Language for link (prefer stored user lang, fallback current)
-        $lang = get_user_meta($user_id, self::META_LANG, true);
+        $lang = $user_lang;
         if (class_exists('HM_EV_Lang')) {
             $lang = HM_EV_Lang::normalize($lang ?: HM_EV_Lang::get_lang());
         } else {
@@ -220,33 +234,22 @@ class HM_EV_Core {
         $site = wp_specialchars_decode(get_bloginfo('name'), ENT_QUOTES);
 
         $subject = class_exists('HM_EV_I18n')
-            ? HM_EV_I18n::t('email_subject', $lang)
+            ? HM_EV_I18n::t('email_subject_verify', $user_lang, ['site' => $site])
             : 'Verify your email address';
 
-        $body  = class_exists('HM_EV_I18n')
-            ? HM_EV_I18n::t('email_greeting', $lang)
-            : 'Hello,';
-        $body .= "\n\n";
+        $greeting = class_exists('HM_EV_I18n') ? HM_EV_I18n::t('email_greeting', $user_lang) : 'Hello,';
+        $line     = class_exists('HM_EV_I18n') ? HM_EV_I18n::t('email_body_verify_line', $user_lang, ['site' => $site]) : '';
+        $label    = class_exists('HM_EV_I18n') ? HM_EV_I18n::t('email_body_link_label', $user_lang) : 'Verification link:';
+        $ignore   = class_exists('HM_EV_I18n') ? HM_EV_I18n::t('email_ignore', $user_lang) : '';
+        $sig      = class_exists('HM_EV_I18n') ? HM_EV_I18n::t('email_signature', $user_lang, ['site' => $site]) : '';
 
-        $body .= class_exists('HM_EV_I18n')
-            ? HM_EV_I18n::t('email_intro', $lang, ['site' => $site])
-            : "To activate your account on {$site}, please verify your email address by clicking the link below:";
-        $body .= "\n\n";
+        $body = $greeting . "\n\n" .
+                $line . "\n\n" .
+                $label . "\n" . $verify_url . "\n\n" .
+                $ignore . "\n\n" .
+                $sig . "\n";
 
-        $body .= $verify_url . "\n\n";
-
-        $body .= class_exists('HM_EV_I18n')
-            ? HM_EV_I18n::t('email_ignore', $lang)
-            : 'If you did not create an account, you can ignore this email.';
-        $body .= "\n\n";
-
-        $body .= class_exists('HM_EV_I18n')
-            ? HM_EV_I18n::t('email_signoff', $lang, ['site' => $site])
-            : "Regards,\n{$site}";
-        $body .= "\n";
-
-        $headers = [];
-        $headers[] = 'Content-Type: text/plain; charset=UTF-8';
+        $headers = ['Content-Type: text/plain; charset=UTF-8'];
 
         // wp_mail is always available, but still guard
         if (function_exists('wp_mail')) {
