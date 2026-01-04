@@ -24,7 +24,7 @@ class HM_EV_Shortcode {
             nocache_headers();
         }
 
-        $lang  = class_exists('HM_EV_Lang') ? HM_EV_Lang::get_lang() : 'en';
+        $lang  = 'en';
         $debug = !empty($_GET['hm_ev_debug']);
 
         // Status
@@ -50,9 +50,6 @@ class HM_EV_Shortcode {
 
         // Build resend URL (language-aware)
         $base = home_url(HM_EV_Core::VERIFY_PAGE);
-        if (class_exists('HM_EV_Lang')) {
-            $base = HM_EV_Lang::home_url_lang(HM_EV_Core::VERIFY_PAGE, $lang);
-        }
 
         $args = ['hm_resend_verify' => 1];
         if ($email && is_email($email)) {
