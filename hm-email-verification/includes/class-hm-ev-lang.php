@@ -18,8 +18,27 @@ class HM_EV_Lang {
 
     public static function normalize($lang) {
         $lang = strtolower(trim((string)$lang));
+        if ($lang === '') return 'en';
+
+        // Handle locales like de_DE, tr_TR, de-DE
+        // Keep only the first segment before '_' or '-'
+        if (strpos($lang, '_') !== false) {
+            $lang = explode('_', $lang)[0];
+        }
+        if (strpos($lang, '-') !== false) {
+            $lang = explode('-', $lang)[0];
+        }
+
+        // Now keep only letters
         $lang = preg_replace('~[^a-z]~', '', $lang);
         if ($lang === '') return 'en';
+
+        // If it's longer than 2, try first 2 chars (safety)
+        if (strlen($lang) > 2) {
+            $maybe = substr($lang, 0, 2);
+            if (in_array($maybe, self::allowed_langs(), true)) return $maybe;
+        }
+
         if (!in_array($lang, self::allowed_langs(), true)) return 'en';
         return $lang;
     }
