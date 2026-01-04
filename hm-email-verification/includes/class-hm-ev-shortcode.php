@@ -24,6 +24,8 @@ class HM_EV_Shortcode {
             nocache_headers();
         }
 
+        // UI language is handled by HMPC/page translations.
+        // Keep shortcode output stable; email language is handled in core via user meta.
         $lang  = 'en';
         $debug = !empty($_GET['hm_ev_debug']);
 
